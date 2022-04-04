@@ -1,0 +1,2 @@
+cd 20
+mpirun -n 60 DUCC-T_CCSD H2O.json > out

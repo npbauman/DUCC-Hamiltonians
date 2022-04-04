@@ -1,0 +1,370 @@
+{
+  "output": {
+    "SCF": {
+      "iter": {
+        "1": {
+          "energy": -76.04821522188467,
+          "e_diff": -76.04821522188467,
+          "rmsd": 0.0008388994192549608,
+          "performance": {
+            "total_time": 3.108116884
+          }
+        },
+        "2": {
+          "energy": -76.06131718360203,
+          "e_diff": -0.01310196171735356,
+          "rmsd": 0.0002537295411152155,
+          "performance": {
+            "total_time": 3.122261409
+          }
+        },
+        "3": {
+          "energy": -76.06542830254989,
+          "e_diff": -0.004111118947861314,
+          "rmsd": 0.00013508648346476868,
+          "performance": {
+            "total_time": 3.133202794
+          }
+        },
+        "4": {
+          "energy": -76.06677379139,
+          "e_diff": -0.0013454888401156495,
+          "rmsd": 6.19800523799166e-05,
+          "performance": {
+            "total_time": 3.135680641
+          }
+        },
+        "5": {
+          "energy": -76.0671841864363,
+          "e_diff": -0.00041039504628770374,
+          "rmsd": 2.4750629593459464e-05,
+          "performance": {
+            "total_time": 3.152696358
+          }
+        },
+        "6": {
+          "energy": -76.06730913391169,
+          "e_diff": -0.00012494747539903983,
+          "rmsd": 8.325544902615118e-06,
+          "performance": {
+            "total_time": 3.165481335
+          }
+        },
+        "7": {
+          "energy": -76.06734692451295,
+          "e_diff": -3.7790601254528156e-05,
+          "rmsd": 2.523891455138887e-06,
+          "performance": {
+            "total_time": 3.182361262
+          }
+        },
+        "8": {
+          "energy": -76.0673582982445,
+          "e_diff": -1.1373731553021571e-05,
+          "rmsd": 7.140485390524291e-07,
+          "performance": {
+            "total_time": 3.225151711
+          }
+        },
+        "9": {
+          "energy": -76.06736171400141,
+          "e_diff": -3.4157569075432548e-06,
+          "rmsd": 2.0556644277743394e-07,
+          "performance": {
+            "total_time": 3.270874187
+          }
+        },
+        "10": {
+          "energy": -76.06736273906361,
+          "e_diff": -1.025062204007554e-06,
+          "rmsd": 6.191461494157225e-08,
+          "performance": {
+            "total_time": 3.294453992
+          }
+        },
+        "11": {
+          "energy": -76.06736304661268,
+          "e_diff": -3.0754907243135676e-07,
+          "rmsd": 1.9060929763910694e-08,
+          "performance": {
+            "total_time": 3.292094416
+          }
+        },
+        "12": {
+          "energy": -76.06736313888018,
+          "e_diff": -9.226749853041838e-08,
+          "rmsd": 5.7456390279043e-09,
+          "performance": {
+            "total_time": 3.289514957
+          }
+        },
+        "13": {
+          "energy": -76.06736316656048,
+          "e_diff": -2.768030071820249e-08,
+          "rmsd": 1.7170887353804195e-09,
+          "performance": {
+            "total_time": 3.193815185
+          }
+        },
+        "14": {
+          "energy": -76.06736317486471,
+          "e_diff": -8.304226639666012e-09,
+          "rmsd": 5.117736308732872e-10,
+          "performance": {
+            "total_time": 3.165533248
+          }
+        },
+        "15": {
+          "energy": -76.06736317735584,
+          "e_diff": -2.491134409865481e-09,
+          "rmsd": 1.5519827976650894e-10,
+          "performance": {
+            "total_time": 3.159832501
+          }
+        },
+        "16": {
+          "energy": -76.06736317810328,
+          "e_diff": -7.474341146007646e-10,
+          "rmsd": 4.5133847805092927e-11,
+          "performance": {
+            "total_time": 3.15982248
+          }
+        }
+      },
+      "final_energy": -76.06736317810328,
+      "n_iterations": 16
+    },
+    "CD": {
+      "n_cholesky_vectors": 4881
+    },
+    "CCSD": {
+      "iter": {
+        "1": {
+          "residual": 1.1443063829111177,
+          "correlation": 0.0,
+          "performance": {
+            "total_time": 246.316797485
+          }
+        },
+        "2": {
+          "residual": 0.0961530682789844,
+          "correlation": -0.3379609979040146,
+          "performance": {
+            "total_time": 202.024661566
+          }
+        },
+        "3": {
+          "residual": 0.021694158772850722,
+          "correlation": -0.331915556487414,
+          "performance": {
+            "total_time": 308.668267458
+          }
+        },
+        "4": {
+          "residual": 0.005617998800428676,
+          "correlation": -0.33816265267694856,
+          "performance": {
+            "total_time": 264.757803366
+          }
+        },
+        "5": {
+          "residual": 0.0024137288176051463,
+          "correlation": -0.3380819397050369,
+          "performance": {
+            "total_time": 216.486274523
+          }
+        },
+        "6": {
+          "residual": 0.0014099818684293363,
+          "correlation": -0.33858705647666787,
+          "performance": {
+            "total_time": 300.756957138
+          }
+        },
+        "7": {
+          "residual": 0.00043772436334868183,
+          "correlation": -0.33858075796690823,
+          "performance": {
+            "total_time": 268.01538092
+          }
+        },
+        "8": {
+          "residual": 0.00022224331402121022,
+          "correlation": -0.33858896927166787,
+          "performance": {
+            "total_time": 260.297011889
+          }
+        },
+        "9": {
+          "residual": 8.580865541413166e-05,
+          "correlation": -0.33860121089916545,
+          "performance": {
+            "total_time": 282.681992148
+          }
+        },
+        "10": {
+          "residual": 4.560740990356835e-05,
+          "correlation": -0.3386045356717561,
+          "performance": {
+            "total_time": 273.719729147
+          }
+        },
+        "11": {
+          "residual": 6.581010014921464e-06,
+          "correlation": -0.338609313046788,
+          "performance": {
+            "total_time": 217.03939016
+          }
+        },
+        "12": {
+          "residual": 2.9505617853671633e-06,
+          "correlation": -0.3386095173340038,
+          "performance": {
+            "total_time": 272.544586449
+          }
+        },
+        "13": {
+          "residual": 1.4155478905241443e-06,
+          "correlation": -0.33860939444751303,
+          "performance": {
+            "total_time": 267.866776862
+          }
+        },
+        "14": {
+          "residual": 7.279174289962397e-07,
+          "correlation": -0.3386093777088007,
+          "performance": {
+            "total_time": 212.348400896
+          }
+        },
+        "15": {
+          "residual": 3.809971692002633e-07,
+          "correlation": -0.3386093667035087,
+          "performance": {
+            "total_time": 235.545079418
+          }
+        },
+        "16": {
+          "residual": 7.747302444828478e-08,
+          "correlation": -0.33860936117915724,
+          "performance": {
+            "total_time": 293.617533803
+          }
+        },
+        "17": {
+          "residual": 3.1200823158692485e-08,
+          "correlation": -0.33860936079703985,
+          "performance": {
+            "total_time": 289.034197434
+          }
+        },
+        "18": {
+          "residual": 1.6952881387651588e-08,
+          "correlation": -0.3386093618917185,
+          "performance": {
+            "total_time": 277.007413568
+          }
+        },
+        "19": {
+          "residual": 9.069539337165853e-09,
+          "correlation": -0.3386093623257579,
+          "performance": {
+            "total_time": 332.869402903
+          }
+        },
+        "20": {
+          "residual": 5.226712009996614e-09,
+          "correlation": -0.3386093624830372,
+          "performance": {
+            "total_time": 266.436331223
+          }
+        },
+        "21": {
+          "residual": 9.174443769092947e-10,
+          "correlation": -0.338609362678037,
+          "performance": {
+            "total_time": 314.252201764
+          }
+        },
+        "22": {
+          "residual": 3.412137955826489e-10,
+          "correlation": -0.3386093626768631,
+          "performance": {
+            "total_time": 258.604824811
+          }
+        },
+        "23": {
+          "residual": 1.5866013122146456e-10,
+          "correlation": -0.3386093626437095,
+          "performance": {
+            "total_time": 272.190452467
+          }
+        },
+        "24": {
+          "residual": 7.434306162905258e-11,
+          "correlation": -0.3386093626387268,
+          "performance": {
+            "total_time": 283.178279518
+          }
+        }
+      },
+      "n_iterations": 24,
+      "final_energy": {
+        "correlation": -0.3386093626387268,
+        "total": -76.405972540742
+      }
+    },
+    "DUCC": {
+      "performance": {
+        "total_time": 439.105666771
+      },
+      "results": {
+        "X1": -33.020089481297916,
+        "X2": 0.09522502202750491,
+        "X3": -2.288619972656868,
+        "X4": -1.5097885946620155e-24,
+        "X5": 0.0,
+        "X6": 0.0,
+        "X7": -0.24810215963159452,
+        "X8": -7.54364161723926e-21,
+        "X9": -1.504632769052528e-36
+      }
+    }
+  },
+  "input": {
+    "molecule": {
+      "name": "H2O",
+      "basis": "cc-pv6z",
+      "basis_sphcart": "spherical",
+      "geometry_units": "angstrom"
+    },
+    "SCF": {
+      "tol_int": 1e-16,
+      "tol_lindep": 1e-06,
+      "conve": 1e-09,
+      "convd": 1e-08,
+      "diis_hist": 10,
+      "AO_tilesize": 30,
+      "force_tilesize": "false",
+      "scf_type": "restricted",
+      "multiplicity": 1
+    },
+    "CD": {
+      "diagtol": 1e-12,
+      "max_cvecs_factor": 100
+    },
+    "CCSD": {
+      "threshold": 1e-10,
+      "tilesize": 40,
+      "itilesize": 1000,
+      "ndiis": 5,
+      "readt": "false",
+      "writet": "false",
+      "ccsd_maxiter": 100,
+      "balance_tiles": "true"
+    },
+    "DUCC": {
+      "nactive": 7
+    }
+  }
+}

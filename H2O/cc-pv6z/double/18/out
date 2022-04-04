@@ -1,0 +1,332 @@
+
+Date: Thu Mar 31 14:08:38 2022
+
+{
+  "geometry": {
+    "coordinates": [
+      "O    0.0000   0.0000   0.1173",
+      "H    0.0000   0.7572  -0.4692",
+      "H    0.0000  -0.7572  -0.4692"
+    ],
+    "units": "angstrom"
+  },
+  "basis": {
+    "basisset": "cc-pv6z",
+    "sphcart": "spherical"
+  },
+  "common": {
+    "maxiter": 100
+  },
+  "SCF": {
+    "tol_int": 1e-16,
+    "tol_lindep": 1e-06,
+    "conve": 1e-09,
+    "convd": 1e-08,
+    "diis_hist": 10,
+    "charge": 0,
+    "multiplicity": 1,
+    "scf_type": "restricted",
+    "sad": false,
+    "writem": 10,
+    "force_tilesize": false,
+    "tilesize": 30
+  },
+  "CD": {
+    "diagtol": 1e-12,
+    "max_cvecs": 100
+  },
+  "CC": {
+    "threshold": 1e-10,
+    "ndiis": 5,
+    "writet": false,
+    "ccsd_maxiter": 100,
+    "CCSD(T)": {
+      "ccsdt_tilesize": 28
+    },
+    "debug": false,
+    "nactive": 13,
+    "EOMCCSD": {
+      "eom_nroots": 4
+    },
+    "RT-EOMCC": {
+      "pcore": 1
+    },
+    "GFCCSD": {
+      "gf_p_oi_range": 1,
+      "gf_eta": -0.01,
+      "gf_threshold": 0.01,
+      "gf_maxiter": 100,
+      "gf_itriples": false,
+      "gf_ngmres": 10,
+      "gf_damping_factor": 1.0,
+      "gf_omega_min_ip": -0.4,
+      "gf_omega_max_ip": -0.2,
+      "gf_omega_min_ip_e": -2.0,
+      "gf_omega_max_ip_e": 0.0,
+      "gf_omega_min_ea": 0.0,
+      "gf_omega_max_ea": 0.1,
+      "gf_omega_min_ea_e": 0.0,
+      "gf_omega_max_ea_e": 2.0,
+      "gf_omega_delta": 0.01,
+      "gf_omega_delta_e": 0.002,
+      "gf_ip": true,
+      "gf_ea": false,
+      "gf_os": false,
+      "gf_cs": true
+    }
+  }
+}
+
+Common Options
+{
+ maxiter    = 100
+ basis      = cc-pv6z spherical
+ geom_units = angstrom
+ debug      = false
+}
+
+Number of nodes, mpi ranks per node provided: 1, 47
+Number of nodes, mpi ranks per node used for SCF calculation: 1, 47
+
+SCF Options
+{
+ charge       = 0
+ multiplicity = 1
+ level shift  = 0
+ tol_int      = 1e-16
+ tol_lindep   = 1e-06
+ conve        = 1e-09
+ convd        = 1e-08
+ diis_hist    = 10
+ AO_tilesize  = 30
+ writem       = 10
+ scf_type     = restricted
+ scalapack_nb = 64
+ restart_size = 2000
+ restart      = false
+ debug        = false
+}
+
+Number of basis functions = 322
+
+Total number of electrons = 10
+  # of alpha electrons    = 5
+  # of beta electons      = 5
+
+Nuclear repulsion energy  = 9.18953442759142
+
+# of {all,non-negligible} shell-pairs = {2485,2485}
+Number of AO tiles = 70
+
+Time for initial setup: 0.02 secs
+
+Time for computing 1-e integrals T, V, S: 0.18 secs
+Time for computing orthogonalizer: 0.09 secs
+
+pre-computing data for Schwarz bounds... 
+Time to compute schwarz matrix: 0.97 secs
+
+Projecting minimal basis SOAD onto basis set specified (cc-pv6z)
+Initial guess: 0.57 secs
+Total Time to compute initial guess: 0.88 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------
+ Iter     Energy            E-Diff        RMSD        Time(s)
+-----------------------------------------------------------------
+   1  -76.0482152219    -7.60e+01     8.39e-04         8.8 
+   2  -76.0613171836    -1.31e-02     2.54e-04         5.3 
+   3  -76.0654283025    -4.11e-03     1.35e-04         9.2 
+   4  -76.0667737914    -1.35e-03     6.20e-05         7.6 
+   5  -76.0671841864    -4.10e-04     2.48e-05         8.0 
+   6  -76.0673091339    -1.25e-04     8.33e-06         5.4 
+   7  -76.0673469245    -3.78e-05     2.52e-06         3.8 
+   8  -76.0673582982    -1.14e-05     7.14e-07         7.4 
+   9  -76.0673617140    -3.42e-06     2.06e-07        10.0 
+  10  -76.0673627391    -1.03e-06     6.19e-08         8.7 
+  11  -76.0673630466    -3.08e-07     1.91e-08         9.8 
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+  12  -76.0673631389    -9.23e-08     5.74e-09         9.3 
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+  13  -76.0673631666    -2.77e-08     1.72e-09        10.6 
+  14  -76.0673631749    -8.30e-09     5.13e-10        10.2 
+  15  -76.0673631774    -2.49e-09     1.54e-10         9.5 
+  16  -76.0673631781    -7.47e-10     4.75e-11         3.7 
+
+** Total SCF energy = -76.0673631781030
+
+Nuclear repulsion energy = 9.189534427591418
+#electrons        = 10.000000000000025
+1e energy kinetic = 75.9981514115069814
+1e energy N-e     = -199.0551920526392280
+1e energy         = -123.0570406411322750
+2e energy         = 37.8001430356290626
+writing orbitals and density to file... done.
+
+Time taken for Hartree-Fock: 130.7418683509999937 secs
+
+CCSD Options
+{
+ ndiis                = 5
+ printtol             = 0.05
+ threshold            = 1e-10
+ tilesize             = 40
+ nactive              = 13
+ pcore                = 1
+ ccsd_maxiter         = 100
+ freeze_core          = 0
+ freeze_virtual       = 0
+ itilesize            = 1000
+ readt                = false
+ writet               = false
+ writev               = false
+ writet_iter          = 5
+ profile_ccsd         = false
+ balance_tiles        = true
+ eom_nroots           = 4
+ eom_microiter        = 100
+ eom_threshold        = 1e-06
+ gf_p_oi_range        = 1
+ gf_ip                = true
+ gf_ea                = false
+ gf_os                = false
+ gf_cs                = true
+ gf_restart           = false
+ gf_profile           = false
+ gf_itriples          = false
+ gf_ndiis             = 10
+ gf_ngmres            = 10
+ gf_maxiter           = 100
+ gf_eta               = -0.01
+ gf_lshift            = 1
+ gf_preconditioning   = 1
+ gf_damping_factor    = 1
+ gf_threshold         = 0.01
+ gf_omega_min_ip      = -0.4
+ gf_omega_max_ip      = -0.2
+ gf_omega_min_ip_e    = -2
+ gf_omega_max_ip_e    = 0
+ gf_omega_min_ea      = 0
+ gf_omega_max_ea      = 0.1
+ gf_omega_min_ea_e    = 0
+ gf_omega_max_ea_e    = 2
+ gf_omega_delta       = 0.01
+ gf_omega_delta_e     = 0.002
+ debug                = false
+}
+
+#occupied, #virtual = 10, 634
+
+Resetting CCSD tilesize to: 50
+
+CD Options
+{
+ diagtol          = 1e-12
+ max_cvecs_factor = 24
+ debug            = false
+}
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 322, 644, 10
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 5,317,5,317
+
+Time taken for Fao->Fmo transform: 0.083327876 secs
+
+-----------------------------------------------------
+Begin Cholesky Decomposition ... 
+Number of cholesky vectors = 4881
+
+Time taken for cholesky decomp: 3947.631241887 secs
+Total Time for constructing CholVpr: 81.998333737 secs
+    --> Time for 2-step contraction:   0.9881356889999999 secs
+
+Time for ga_chol_mo -> CholVpr_tamm conversion: 14.374681494 secs
+
+Total Time taken for CD (+SVD): 4052.383072917 secs
+
+----------------------------
+scf_type = restricted
+Closed-Shell SCF
+nbf = 322
+nbf_orig = 322
+n_lindep = 0
+focc = 1
+nmo = 644
+nocc = 10
+nvir = 634
+n_occ_alpha = 5
+n_vir_alpha = 317
+n_occ_beta = 5
+n_vir_beta = 317
+nelectrons = 10
+nelectrons_alpha = 5
+nelectrons_beta = 5
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Total CPU memory required for Closed Shell Cholesky CCSD calculation: 98.145 GiB
+
+
+ CCSD iterations
+------------------------------------------------------------------
+ Iter          Residuum       Correlation     Cpu    Wall    V2*C2
+------------------------------------------------------------------
+     1  1.144306382911  0.0000000000000     0.0     277.10     0.0
+     2  0.0961530682790  -0.3379609979040     0.0     305.81     0.0
+     3  0.0216941587729  -0.3319155564874     0.0     265.67     0.0
+     4  0.0056179988004  -0.3381626526769     0.0     338.20     0.0
+     5  0.0024137288176  -0.3380819397050     0.0     260.98     0.0
+ MICROCYCLE DIIS UPDATE:                    6                    5
+     6  0.0014105599488  -0.3385867061837     0.0     255.60     0.0
+     7  0.0004388719714  -0.3385797099610     0.0     266.39     0.0
+     8  0.0002224253487  -0.3385888655015     0.0     283.71     0.0
+     9  0.0000862288451  -0.3386010673980     0.0     286.44     0.0
+    10  0.0000457388231  -0.3386045056768     0.0     343.13     0.0
+ MICROCYCLE DIIS UPDATE:                   11                    5
+    11  0.0000066233841  -0.3386093084168     0.0     324.28     0.0
+    12  0.0000029668786  -0.3386095239731     0.0     321.76     0.0
+    13  0.0000014234987  -0.3386093955538     0.0     343.49     0.0
+    14  0.0000007319682  -0.3386093785292     0.0     306.72     0.0
+    15  0.0000003828387  -0.3386093669619     0.0     307.42     0.0
+ MICROCYCLE DIIS UPDATE:                   16                    5
+    16  0.0000000779540  -0.3386093613634     0.0     223.30     0.0
+    17  0.0000000312081  -0.3386093607165     0.0     297.40     0.0
+    18  0.0000000169698  -0.3386093618997     0.0     339.29     0.0
+    19  0.0000000090694  -0.3386093623194     0.0     309.18     0.0
+    20  0.0000000052271  -0.3386093624829     0.0     360.83     0.0
+ MICROCYCLE DIIS UPDATE:                   21                    5
+    21  0.0000000009197  -0.3386093626758     0.0     362.84     0.0
+    22  0.0000000003433  -0.3386093626782     0.0     239.80     0.0
+    23  0.0000000001599  -0.3386093626438     0.0     309.75     0.0
+    24  0.0000000000752  -0.3386093626389     0.0     296.94     0.0
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.338609362638860
+ CCSD total energy / hartree       =       -76.405972540741857
+
+Time taken for Closed Shell Cholesky CCSD: 7232.870833541000138 secs
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.005634416000000 secs
+
+DUCC: Time taken to compute Single Commutator: 1.127123596000000 secs
+
+DUCC: Time taken to compute Double Commutator: 203.412279799000004 secs
+
+DUCC: Time taken to compute Triple Commutator: 9.599823398000000 secs
+
+DUCC: Total Compute Time: 214.144864708000028 secs
+
+Number of active orbitals = 18
+
+
+DUCC: Time to write results: 0.140916063000000 secs
