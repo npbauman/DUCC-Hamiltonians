@@ -3022,3 +3022,4 @@ Davidson: iter=3 dim=3 root=0 eigenvalue=-85.595730282432
 Davidson: iter=4 dim=4 root=0 eigenvalue=-85.595734516092
 Davidson: iter=5 dim=5 root=0 eigenvalue=-85.595734701961
 Davidson: iter=6 dim=6 root=0 eigenvalue=-85.595734713671
+Davidson: iter=7 dim=7 root=0 eigenvalue=-85.595734714690
