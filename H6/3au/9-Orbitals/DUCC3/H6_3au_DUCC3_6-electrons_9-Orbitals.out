@@ -1,0 +1,636 @@
+
+ExaChem Git Information
+{
+ Branch: CCSDT
+ Commit Hash: ab89a50 [ab89a50873e140635d29665460efc12147659ded]
+ Commit Date: 2024-07-31 10:57:30 -0700
+ Commit Message: Added script to prepare DUCC Hamiltonians as FCIDUMP, yaml, and xacc formats.
+
+ WARNING: The following ExaChem sources have uncommitted changes at build-time.
+
+ M exachem/cc/ccsd/ccsd_util.hpp
+ M exachem/cc/ccsdt/cd_ccsdt.cpp
+ M exachem/cc/ccsdt/cd_ccsdt_os.cpp
+ M exachem/cc/ccsdt/cd_ccsdt_os.hpp
+ M exachem/cc/ducc/ducc-t_ccsd.cpp
+
+diff --git a/exachem/cc/ccsd/ccsd_util.hpp b/exachem/cc/ccsd/ccsd_util.hpp
+index 3f4295f..3f993d8 100644
+--- a/exachem/cc/ccsd/ccsd_util.hpp
++++ b/exachem/cc/ccsd/ccsd_util.hpp
+@@ -101,0 +102 @@ struct V2Tensors_SE {
++  CCSE_Tensors<T> v2iabj;
+@@ -111,2 +112,3 @@ struct V2Tensors_SE {
+-    v2iajb                   = CCSE_Tensors<T>{MO, {O, V, O, V}, "iajb", {"aaaa", "abab", "bbbb"}};
+-    v2ijka                   = CCSE_Tensors<T>{MO, {O, O, O, V}, "ijka", {"aaaa", "abab", "bbbb"}};
++    v2iajb                   = CCSE_Tensors<T>{MO, {O, V, O, V}, "iajb", {"aaaa", "abab", "baba", "bbbb"}};
++    v2iabj                   = CCSE_Tensors<T>{MO, {O, V, V, O}, "iabj", {"abab", "baba"}};
++    v2ijka                   = CCSE_Tensors<T>{MO, {O, O, O, V}, "ijka", {"aaaa", "abab", "baba", "bbbb"}};
+@@ -114 +116 @@ struct V2Tensors_SE {
+-    v2iabc                   = CCSE_Tensors<T>{MO, {O, V, V, V}, "iabc", {"aaaa", "abab", "bbbb"}};
++    v2iabc                   = CCSE_Tensors<T>{MO, {O, V, V, V}, "iabc", {"aaaa", "abab", "baba", "bbbb"}};
+@@ -116 +118 @@ struct V2Tensors_SE {
+-    CCSE_Tensors<T>::allocate_list(sch, v2ijab, v2iajb, v2ijka, v2ijkl, v2iabc, v2abcd);
++    CCSE_Tensors<T>::allocate_list(sch, v2ijab, v2iajb, v2iabj, v2ijka, v2ijkl, v2iabc, v2abcd);
+@@ -132,0 +135 @@ struct V2Tensors_SE {
++       ( v2iajb("baba")(h1_ob,p1_va,h2_ob,p2_va)  =  1.0 * v2tensors.v2iajb(h1_ob,p1_va,h2_ob,p2_va) )
+@@ -134,0 +138,3 @@ struct V2Tensors_SE {
++    sch( v2iabj("abab")(h1_oa,p1_vb,p2_va,h2_ob)  =  -1.0 * v2tensors.v2iajb(h1_oa,p1_vb,h2_ob,p2_va) )
++       ( v2iabj("baba")(h1_ob,p1_va,p2_vb,h2_oa)  =  -1.0 * v2tensors.v2iajb(h1_ob,p1_va,h2_oa,p2_vb) );
++
+@@ -136,0 +143 @@ struct V2Tensors_SE {
++       ( v2ijka("baba")(h1_ob,h2_oa,h3_ob,p1_va)  =  1.0 * v2tensors.v2ijka(h1_ob,h2_oa,h3_ob,p1_va) )
+@@ -144,0 +152 @@ struct V2Tensors_SE {
++       ( v2iabc("baba")(h1_ob,p2_va,p3_vb,p4_va)  =  1.0 * v2tensors.v2iabc(h1_ob,p2_va,p3_vb,p4_va) )
+@@ -157 +165 @@ struct V2Tensors_SE {
+-    CCSE_Tensors<T>::deallocate_list(sch, v2ijab, v2iajb, v2ijka, v2ijkl, v2iabc, v2abcd);
++    CCSE_Tensors<T>::deallocate_list(sch, v2ijab, v2iajb, v2iabj, v2ijka, v2ijkl, v2iabc, v2abcd);
+diff --git a/exachem/cc/ccsdt/cd_ccsdt.cpp b/exachem/cc/ccsdt/cd_ccsdt.cpp
+index 8a41417..e551f32 100644
+--- a/exachem/cc/ccsdt/cd_ccsdt.cpp
++++ b/exachem/cc/ccsdt/cd_ccsdt.cpp
+@@ -195 +195 @@ void exachem::cc::ccsdt::cd_ccsdt(ExecutionContext& ec, ChemEnv& chem_env) {
+-    chem_env, ec, MO, CI, d_t1, d_t2, d_t3, d_f1, d_r1, d_r2, d_r3, d_r1s, d_r2s, d_r3s, d_t1s,
++    chem_env, ec, MO, CI, d_t1, d_t2, d_t3, d_r1, d_r2, d_r3, d_r1s, d_r2s, d_r3s, d_t1s,
+diff --git a/exachem/cc/ccsdt/cd_ccsdt_os.cpp b/exachem/cc/ccsdt/cd_ccsdt_os.cpp
+index 343ddc6..d9646bb 100644
+--- a/exachem/cc/ccsdt/cd_ccsdt_os.cpp
++++ b/exachem/cc/ccsdt/cd_ccsdt_os.cpp
+@@ -26,4 +26,5 @@ void ccsdt_e_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpace
+-                Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& d_f1, V2Tensors_SE<T>& v2tensors,
+-                CCSDT_Tensors<T>& ccsdt_tensors) {
+-  // auto [p1, p2, p3, p4, p5, p6, p7, p8] = MO.labels<8>("virt");
+-  // auto [h1, h2, h3, h4, h5, h6, h7, h8] = MO.labels<8>("occ");
++                V2Tensors_SE<T>& v2tensors, CCSDT_Tensors<T>& ccsdt_tensors) {
++  auto [p2_a, p4_a] = MO.labels<2>("virt_alpha");
++  auto [p2_b, p4_b] = MO.labels<2>("virt_beta");
++  auto [h1_a, h3_a] = MO.labels<2>("occ_alpha");
++  auto [h1_b, h3_b] = MO.labels<2>("occ_beta");
+@@ -33,5 +34,13 @@ void ccsdt_e_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpace
+-  // TAMM_REGISTER_SYMBOLS(symbol_table, p1, p2, p3, p4, p5, p6, p7, p8, h1, h2, h3, h4, h5, h6, h7,
+-  //                       h8);
+-  // TAMM_REGISTER_SYMBOLS(symbol_table, v2tensors.v2ijab, d_f1, t1, t2);
+-
+-  // auto op0 = 0;
++  // TAMM_REGISTER_SYMBOLS(symbol_table, p2_a, p4_a, p2_b, p4_b, h1_a, h3_a, h1_b, h3_b);
++  // TAMM_REGISTER_SYMBOLS(symbol_table, v2tensors.v2ijab, CCSDT_Tensors.f1_ov, CCSDT_Tensors.t1_vo, CCSDT_Tensors.t2_vvoo);
++
++  // auto op0 = (
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("aa")(h1_a, p2_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h1_a) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("bb")(h1_b, p2_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h1_b) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("aaaa")(h1_a, h3_a, p2_a, p4_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p4_a, h1_a, h3_a) +
++  // (1.0/2.0) * (LTOp)v2tensors.v2ijab("aaaa")(h1_a, h3_a, p2_a, p4_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h1_a, h3_b, p2_a, p4_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p4_b, h1_a, h3_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h1_a, h3_b, p2_a, p4_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("bbbb")(h1_b, h3_b, p2_b, p4_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p4_b, h1_b, h3_b) +
++  // (1.0/2.0) * (LTOp)v2tensors.v2ijab("bbbb")(h1_b, h3_b, p2_b, p4_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b)
++                // );
+@@ -46 +54,0 @@ void ccsdt_t1_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpac
+-                 Tensor<T>& r1, Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& d_f1,
+@@ -48,2 +56,4 @@ void ccsdt_t1_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpac
+-  // auto [p1, p2, p3, p4, p5, p6, p7, p8] = MO.labels<8>("virt");
+-  // auto [h1, h2, h3, h4, h5, h6, h7, h8] = MO.labels<8>("occ");
++  auto [p2_a, p3_a, p4_a, p5_a, p6_a] = MO.labels<5>("virt_alpha");
++  auto [p2_b, p3_b, p4_b, p5_b, p6_b] = MO.labels<5>("virt_beta");
++  auto [h1_a, h3_a, h4_a, h5_a] = MO.labels<4>("occ_alpha");
++  auto [h1_b, h3_b, h4_b, h5_b] = MO.labels<4>("occ_beta");
+@@ -53,9 +63,75 @@ void ccsdt_t1_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpac
+-  // TAMM_REGISTER_SYMBOLS(symbol_table, p1, p2, p3, p4, p5, p6, p7, p8, h1, h2, h3, h4, h5, h6, h7,
+-  //                       h8);
+-  // TAMM_REGISTER_SYMBOLS(symbol_table, v2tensors.v2ijab, v2tensors.v2ijka, v2tensors.v2iabc,
+-  //                       v2tensors.v2iajb, d_f1, t1, t2, t3);
+-  // auto op1 = 0;
+-
+-  // r1(p2, h1).set(op1);
+-  // // op_exec.print_op_binarized((LTOp)r1(p2, h1), op1.clone(), true);
+-  // op_exec.execute(r1, true, ExecutionHW::CPU);
++  // TAMM_REGISTER_SYMBOLS(symbol_table, p2_a, p3_a, p4_a, p5_a, p6_a, p2_b, p3_b, p4_b, p5_b, p6_b, h1_a, h3_a, h4_a, h5_a, h1_b, h3_b, h4_b, h5_b);
++  // TAMM_REGISTER_SYMBOLS(symbol_table, v2tensors.v2iajb, v2tensors.v2ijka, v2tensors.v2iabc, v2tensors.v2ijab, v2tensors.v2iabj, CCSDT_Tensors.f1_ov, CCSDT_Tensors.t1_vo, CCSDT_Tensors.t2_vvoo, CCSDT_Tensors.t3_vvvooo);
++
++  // auto op1a = (
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("aa")(h1_a, p2_a) +
++  // -1.0 * (LTOp)CCSDT_Tensors.f1_oo("aa")(h3_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_vv("aa")(p2_a, p3_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p3_a, h1_a) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("aa")(h3_a, p4_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p4_a, h1_a, h3_a) +
++  // -1.0 * (LTOp)CCSDT_Tensors.f1_ov("aa")(h3_a, p4_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("bb")(h3_b, p4_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p4_b, h1_a, h3_b) +
++  // -1.0 * (LTOp)v2tensors.v2iajb("aaaa")(h3_a, p2_a, h1_a, p4_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijka("aaaa")(h3_a, h4_a, h1_a, p5_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p5_a, h3_a, h4_a) +
++  // (1.0/2.0) * (LTOp)v2tensors.v2iabc("aaaa")(h4_a, p2_a, p5_a, p3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p3_a, p5_a, h1_a, h4_a) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t3_vvvooo("aaaaaa")(p2_a, p4_a, p6_a, h1_a, h3_a, h5_a) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("aaaa")(h3_a, h4_a, h1_a, p5_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p5_a, h4_a) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("aaaa")(h4_a, p2_a, p5_a, p3_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p3_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p5_a, h4_a) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h1_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p6_a, h3_a, h5_a) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p4_a, p6_a, h1_a, h5_a) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p6_a, h1_a, h5_a) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p6_a, h5_a) +
++  // 1.0 * (LTOp)v2tensors.v2iabj("abab")(h1_a, p4_b, p2_a, h3_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("abab")(h3_a, h4_b, h1_a, p5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p5_b, h3_a, h4_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("baba")(h4_b, p2_a, p5_b, p3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p3_a, p5_b, h1_a, h4_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t3_vvvooo("aabaab")(p2_a, p4_a, p6_b, h1_a, h3_a, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("abab")(h3_a, h4_b, h1_a, p5_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p5_b, h4_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("baba")(h4_b, p2_a, p5_b, p3_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p3_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p5_b, h4_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h1_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p6_b, h3_a, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p6_b, h1_a, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p6_b, h1_a, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("aaaa")(p2_a, p4_a, h1_a, h3_a) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h1_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p2_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h5_b) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t3_vvvooo("abbabb")(p2_a, p4_b, p6_b, h1_a, h3_b, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p2_a, p6_b, h1_a, h5_b)
++  // );
++
++  // ccsdt_tensors.r1_vo("aa")(p2_a, h1_a).set(op1a);
++  // // op_exec.print_op_binarized((LTOp)ccsdt_tensors.r1_vo("aa")(p2_a, h1_a), op1a.clone(), true);
++  // op_exec.execute(ccsdt_tensors.r1_vo("aa"), true, ExecutionHW::CPU);
++
++
++  // auto op1b = (
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("aa")(h3_a, p4_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p2_b, h3_a, h1_b) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("bb")(h1_b, p2_b) +
++  // -1.0 * (LTOp)CCSDT_Tensors.f1_oo("bb")(h3_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h3_b) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_vv("bb")(p2_b, p3_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p3_b, h1_b) +
++  // 1.0 * (LTOp)CCSDT_Tensors.f1_ov("bb")(h3_b, p4_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p4_b, h1_b, h3_b) +
++  // -1.0 * (LTOp)CCSDT_Tensors.f1_ov("bb")(h3_b, p4_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h3_b) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t3_vvvooo("aabaab")(p4_a, p6_a, p2_b, h3_a, h5_a, h1_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("aaaa")(h3_a, h5_a, p4_a, p6_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p6_a, p2_b, h5_a, h1_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabj("abab")(h3_a, p2_b, p4_a, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("baba")(h5_b, h3_a, h1_b, p4_a) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p2_b, h3_a, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("abab")(h3_a, p2_b, p4_a, p5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p5_b, h3_a, h1_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t3_vvvooo("abbabb")(p4_a, p2_b, p6_b, h3_a, h1_b, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("baba")(h5_b, h3_a, h1_b, p4_a) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("abab")(h3_a, p2_b, p4_a, p5_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p5_b, h1_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p6_b, h1_b, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h1_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p2_b, h3_a, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p6_b, h3_a, h1_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("abab")(p4_a, p2_b, h3_a, h1_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("abab")(h3_a, h5_b, p4_a, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("aa")(p4_a, h3_a) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2iajb("bbbb")(h3_b, p2_b, h1_b, p4_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijka("bbbb")(h3_b, h4_b, h1_b, p5_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p5_b, h3_b, h4_b) +
++  // (1.0/2.0) * (LTOp)v2tensors.v2iabc("bbbb")(h4_b, p2_b, p5_b, p3_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p3_b, p5_b, h1_b, h4_b) +
++  // (1.0/4.0) * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t3_vvvooo("bbbbbb")(p2_b, p4_b, p6_b, h1_b, h3_b, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijka("bbbb")(h3_b, h4_b, h1_b, p5_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h3_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p5_b, h4_b) +
++  // 1.0 * (LTOp)v2tensors.v2iabc("bbbb")(h4_b, p2_b, p5_b, p3_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p3_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p5_b, h4_b) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h1_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p6_b, h3_b, h5_b) +
++  // -(1.0/2.0) * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h3_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p4_b, p6_b, h1_b, h5_b) +
++  // 1.0 * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h3_b) * (LTOp)CCSDT_Tensors.t2_vvoo("bbbb")(p2_b, p6_b, h1_b, h5_b) +
++  // -1.0 * (LTOp)v2tensors.v2ijab("bbbb")(h3_b, h5_b, p4_b, p6_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p4_b, h1_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p2_b, h3_b) * (LTOp)CCSDT_Tensors.t1_vo("bb")(p6_b, h5_b)
++  // );
++
++  // ccsdt_tensors.r1_vo("bb")(p2_b, h1_b).set(op1a);
++  // // op_exec.print_op_binarized((LTOp)ccsdt_tensors.r1_vo("bb")(p2_b, h1_b), op1a.clone(), true);
++  // op_exec.execute(ccsdt_tensors.r1_vo("bb"), true, ExecutionHW::CPU);
+@@ -66 +141,0 @@ void ccsdt_t2_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpac
+-                 Tensor<T>& r2, Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& d_f1,
+@@ -87 +161,0 @@ void ccsdt_t3_os(Scheduler& sch, const TiledIndexSpace& MO, const TiledIndexSpac
+-                 Tensor<T>& r3, Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& d_f1,
+@@ -109 +183 @@ std::tuple<double, double> cd_ccsdt_os_driver(
+-  Tensor<T>& d_t1, Tensor<T>& d_t2, Tensor<T>& d_t3, Tensor<T>& d_f1, Tensor<T>& d_r1,
++  Tensor<T>& d_t1, Tensor<T>& d_t2, Tensor<T>& d_t3, Tensor<T>& d_r1,
+@@ -160,5 +233,0 @@ std::tuple<double, double> cd_ccsdt_os_driver(
+-      // auto norm1 = norm(v2tensors.v2ijab);
+-      // if(ec.pg().rank() == 0) {
+-      //   std::cout <<  norm1 << std::endl;
+-      // }
+-
+@@ -166,4 +235,4 @@ std::tuple<double, double> cd_ccsdt_os_driver(
+-      ccsdt_e_os(sch, MO, CI, d_e, d_t1, d_t2, d_f1, v2tensors, ccsdt_tensors);
+-      ccsdt_t1_os(sch, MO, CI, d_r1, d_t1, d_t2, d_t3, d_f1, v2tensors, ccsdt_tensors);
+-      ccsdt_t2_os(sch, MO, CI, d_r2, d_t1, d_t2, d_t3, d_f1, v2tensors, ccsdt_tensors);
+-      ccsdt_t3_os(sch, MO, CI, d_r3, d_t1, d_t2, d_t3, d_f1, v2tensors, ccsdt_tensors);
++      ccsdt_e_os(sch, MO, CI, d_e, v2tensors, ccsdt_tensors);
++      ccsdt_t1_os(sch, MO, CI, v2tensors, ccsdt_tensors);
++      ccsdt_t2_os(sch, MO, CI, v2tensors, ccsdt_tensors);
++      ccsdt_t3_os(sch, MO, CI, v2tensors, ccsdt_tensors);
+@@ -172 +240,0 @@ std::tuple<double, double> cd_ccsdt_os_driver(
+-
+@@ -295 +363 @@ template std::tuple<double, double> cd_ccsdt_os_driver<T>(
+-  Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& d_f1, Tensor<T>& r1, Tensor<T>& r2,
++  Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& r1, Tensor<T>& r2,
+diff --git a/exachem/cc/ccsdt/cd_ccsdt_os.hpp b/exachem/cc/ccsdt/cd_ccsdt_os.hpp
+index 50a3cfd..56018b7 100644
+--- a/exachem/cc/ccsdt/cd_ccsdt_os.hpp
++++ b/exachem/cc/ccsdt/cd_ccsdt_os.hpp
+@@ -42,2 +41,0 @@ struct CCSDT_Tensors {
+-    t2_vvoo = CCSE_Tensors<T>{MO, {V, V, O, O}, "t2", {"aaaa", "abab", "bbbb"}};
+-
+@@ -44,0 +43,2 @@ struct CCSDT_Tensors {
++
++    t2_vvoo = CCSE_Tensors<T>{MO, {V, V, O, O}, "t2", {"aaaa", "abab", "bbbb"}};
+@@ -46,0 +47,2 @@ struct CCSDT_Tensors {
++    t3_vvvooo =
++      CCSE_Tensors<T>{MO, {V, V, V, O, O, O}, "t3", {"aaaaaa", "aabaab", "abbabb", "bbbbbb"}};
+@@ -51 +53 @@ struct CCSDT_Tensors {
+-                                   r3_vvvooo);
++                                   t3_vvvooo, r3_vvvooo);
+@@ -56 +58 @@ struct CCSDT_Tensors {
+-                                     r3_vvvooo);
++                                     t3_vvvooo, r3_vvvooo);
+@@ -61 +63 @@ struct CCSDT_Tensors {
+-                                     r3_vvvooo);
++                                     t3_vvvooo, r3_vvvooo);
+@@ -68 +70 @@ std::tuple<double, double> cd_ccsdt_os_driver(
+-  Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& d_f1, Tensor<T>& r1, Tensor<T>& r2,
++  Tensor<T>& t1, Tensor<T>& t2, Tensor<T>& t3, Tensor<T>& r1, Tensor<T>& r2,
+diff --git a/exachem/cc/ducc/ducc-t_ccsd.cpp b/exachem/cc/ducc/ducc-t_ccsd.cpp
+index 4082ecd..7bb3e64 100644
+--- a/exachem/cc/ducc/ducc-t_ccsd.cpp
++++ b/exachem/cc/ducc/ducc-t_ccsd.cpp
+@@ -20357,2 +20357,2 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // F_1(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
+-    //     nactv, ex_hw);
++    F_1(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
++        nactv, ex_hw);
+@@ -20360,4 +20360,4 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // sch(adj_scalar() = 0.0 )
+-    //    (adj_scalar() += 1.0 * f1(h1, p2) * t1(p2, h1))
+-    //    (adj_scalar() += 1.0 * t1(p2, h1) * f1(h1, p2))
+-    //    (total_shift() += adj_scalar()).execute();
++    sch(adj_scalar() = 0.0 )
++       (adj_scalar() += 1.0 * f1(h1, p2) * t1(p2, h1))
++       (adj_scalar() += 1.0 * t1(p2, h1) * f1(h1, p2))
++       (total_shift() += adj_scalar()).execute();
+@@ -20365,2 +20365,2 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // V_1(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, v2tensors, t1,
+-    //     t2, nactv, ex_hw);
++    V_1(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, v2tensors, t1,
++        t2, nactv, ex_hw);
+@@ -20368,4 +20368,4 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // sch(adj_scalar() = 0.0 )
+-    //    (adj_scalar() += (1.0/4.0) * v2tensors.v2ijab(h1, h3, p2, p4) * t2(p2, p4, h1, h3) )
+-    //    (adj_scalar() += (1.0/4.0) * t2(p4, p2, h3, h1) * v2tensors.v2ijab(h1, h3, p2, p4) )
+-    //    (total_shift() += adj_scalar()).execute();
++    sch(adj_scalar() = 0.0 )
++       (adj_scalar() += (1.0/4.0) * v2tensors.v2ijab(h1, h3, p2, p4) * t2(p2, p4, h1, h3) )
++       (adj_scalar() += (1.0/4.0) * t2(p4, p2, h3, h1) * v2tensors.v2ijab(h1, h3, p2, p4) )
++       (total_shift() += adj_scalar()).execute();
+@@ -20389,4 +20389,4 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // sch(adj_scalar() = 0.0 ).execute();
+-    // F_2(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
+-    //     nactv, adj_scalar, ex_hw);
+-    // sch(total_shift() += adj_scalar()).execute();
++    sch(adj_scalar() = 0.0 ).execute();
++    F_2(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
++        nactv, adj_scalar, ex_hw);
++    sch(total_shift() += adj_scalar()).execute();
+@@ -20397,4 +20397,4 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // sch(adj_scalar() = 0.0).execute();
+-    // V_2(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, v2tensors, t1,
+-    //     t2, nactv, adj_scalar, ex_hw);
+-    // sch(total_shift() += adj_scalar()).execute();
++    sch(adj_scalar() = 0.0).execute();
++    V_2(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, v2tensors, t1,
++        t2, nactv, adj_scalar, ex_hw);
++    sch(total_shift() += adj_scalar()).execute();
+@@ -20421,4 +20421,4 @@ void DUCC_T_CCSD_Driver(ChemEnv& chem_env, ExecutionContext& ec, const TiledInde
+-    // sch(adj_scalar() = 0.0).execute();
+-    // F_3(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
+-    //     nactv, adj_scalar, ex_hw);
+-    // sch(total_shift() += adj_scalar()).execute();
++    sch(adj_scalar() = 0.0).execute();
++    F_3(sch, MO, ftij, ftia, ftab, vtijkl, vtijka, vtaijb, vtijab, vtiabc, vtabcd, f1, t1, t2,
++        nactv, adj_scalar, ex_hw);
++    sch(total_shift() += adj_scalar()).execute();
+
+}
+
+
+TAMM Git Information
+{
+ Branch: main
+ Commit Hash: 1152c175 [1152c1757eeaefcb86adbee222278c68e4917a35]
+ Commit Date: 2024-05-25 11:50:55 -0700
+ Commit Message: Max bindings (#124)
+}
+
+
+date: Wed Aug  7 00:12:25 2024
+program: "/hpc/home/baum612/code/exachem-dev/build/methods_stage/hpc/home/baum612/code/tamm_install/methods/ExaChem"
+nnodes: 1, nproc_per_node: 8, nproc_total: 8, ngpus_per_node: 8, ngpus_total: 8
+
+Memory information
+{
+[Intel(R) Xeon(R) Platinum 8276M CPU @ 2.20GHz] : 
+  CPU memory per node (GiB): 6046
+  Total CPU memory (GiB): 6046
+}
+
+------------------------------------------------------------
+
+Input file provided: /hpc/home/baum612/code/exachem-dev/inputs/LargeQuantumDUCC/4/H6.json
+
+{
+  "geometry": {
+    "coordinates": [
+      "H 0.0 0.0 0.0",
+      "H 0.0 0.0 3.0",
+      "H 0.0 0.0 6.0",
+      "H 0.0 0.0 9.0",
+      "H 0.0 0.0 12.0",
+      "H 0.0 0.0 15.0"
+    ],
+    "units": "bohr"
+  },
+  "basis": {
+    "basisset": "cc-pVQZ"
+  },
+  "SCF": {
+    "conve": 1e-12,
+    "convd": 1e-11,
+    "DFT": null
+  },
+  "CD": {
+    "diagtol": 1e-09
+  },
+  "CC": {
+    "threshold": 1e-08,
+    "nactive": 6,
+    "ccsd_maxiter": 150,
+    "freeze": {
+      "core": 0
+    },
+    "PRINT": {
+      "tamplitudes": [
+        true,
+        0.05
+      ]
+    }
+  },
+  "TASK": {
+    "ducc": true
+  },
+  "common": null,
+  "GW": null,
+  "FCI": null
+}
+
+Output folder & files prefix: H6.cc-pvqz
+
+
+Number of nodes, processes per node used for SCF calculation: 1, 8
+
+Common Options
+{
+ maxiter    = 50
+ basis      = cc-pvqz spherical
+ geom_units = bohr
+ debug      = false
+ file_prefix    = H6
+}
+
+SCF Options
+{
+ charge            = 0
+ multiplicity      = 1
+ level shift       = 0
+ tol_int           = 1e-22
+ tol_sch           = 1e-10
+ tol_lindep        = 1e-05
+ conve             = 1e-12
+ convd             = 1e-11
+ diis_hist         = 10
+ AO_tilesize       = 30
+ writem            = 1
+ damp              = 100
+ n_lindep          = 0
+ scf_type          = restricted
+ direct_df         = false
+ restart_size      = 2000
+ restart           = false
+ debug             = false
+}
+Resetting tol_sch to 1e-14
+
+Number of basis functions = 180
+
+Total number of shells = 60
+
+Total number of electrons = 6
+  # of alpha electrons    = 3
+  # of beta electons      = 3
+
+Nuclear repulsion energy  = 2.9
+
+# of {all,non-negligible} shell-pairs = {1830,1541}
+Number of AO tiles = 60
+
+Time for initial setup: 0.03 secs
+
+Time for computing 1-e integrals T, V, S: 0.00 secs
+Time for computing orthogonalizer: 0.01 secs
+
+Superposition of Atomic Density Guess ...
+Time taken for SAD: 0.09 secs
+Total Time to compute initial guess: 0.09 secs
+
+
+ SCF iterations
+-----------------------------------------------------------------------------
+ Iter     Energy            E-Diff       RMSD        |[F,P]|^2       Time(s)
+-----------------------------------------------------------------------------
+   1  -2.4268576580    -2.43e+00     4.86e-03     9.47e-01         0.0 
+   2  -2.9573196217    -5.30e-01     9.78e-04     1.37e-01         0.3 
+   3  -2.9683635766    -1.10e-02     4.95e-04     2.06e-02         0.3 
+   4  -2.9704850147    -2.12e-03     1.80e-04     1.71e-03         0.3 
+   5  -2.9706475534    -1.63e-04     1.40e-05     6.83e-06         0.3 
+   6  -2.9706483752    -8.22e-07     7.84e-07     3.83e-08         0.3 
+   7  -2.9706483775    -2.32e-09     2.00e-07     9.47e-10         0.3 
+   8  -2.9706483776    -9.25e-11     4.23e-08     2.27e-11         0.3 
+   9  -2.9706483776    -2.90e-12     7.17e-09     5.12e-13         0.3 
+  10  -2.9706483776    -7.11e-14     4.65e-10     1.26e-14         0.3 
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+  11  -2.9706483776     0.00e+00     5.26e-11     7.59e-17         0.3 
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+<DIIS> Singularity in Pulay matrix detected.
+  12  -2.9706483776    -1.78e-15     5.47e-12     1.02e-18         0.3 
+
+** Total SCF energy = -2.9706483775800
+
+Nuclear repulsion energy = 2.900000000000000
+#electrons        = 7
+1e energy kinetic = 2.1813010148809324
+1e energy N-e     = -11.2593458959580310
+1e energy         = -9.0780448810770960
+2e energy         = 3.2073965034970930
+writing orbitals and density to disk ... done.
+
+Total Time taken for Hartree-Fock: 3.27 secs
+
+CCSD Options
+{
+ cache_size           = 8
+ ccsdt_tilesize       = 40
+ ndiis                = 5
+ threshold            = 1e-08
+ tilesize             = 40
+ nactive              = 6
+ ccsd_maxiter         = 150
+ freeze_atomic         = false
+ freeze_core          = 0
+ freeze_virtual       = 0
+ readt                = false
+ writet               = false
+ writev               = false
+ writet_iter          = 5
+ profile_ccsd         = false
+ balance_tiles        = true
+ eom_nroots           = 1
+ eom_microiter        = 50
+ eom_threshold        = 1e-06
+ debug                = false
+}
+
+#occupied, #virtual = 6, 354
+
+Resetting CCSD tilesize to: 50
+
+CD Options
+{
+ debug            = false
+ skip_cd          = [false,100]
+ write_cv         = [false,5000]
+ diagtol          = 1e-09
+ itilesize        = 1000
+ max_cvecs_factor = 18
+}
+
+-----------------------------------------------------
+Begin 2-index transformation ... 
+
+nAO, nMO, nelectrons = 180, 360, 6
+n_occ_alpha, n_vir_alpha, n_occ_beta, n_vir_beta = 3,177,3,177
+
+Time taken for Fao->Fmo transform: 0.00 secs
+
+-----------------------------------------------------
+Number of AO tiles = 60
+# of {all,non-negligible} shell-pairs = {1830,1541}
+
+    Begin Cholesky Decomposition
+---------------------------------------------
+- CPU memory required for computing cholesky vectors: 0.78 GiB
+
+- Time for computing the diagonal: 0.00 secs
+
+- Total number of cholesky vectors = 2256
+
+- Time to compute cholesky vectors: 105.98 secs
+
+- CPU memory required for resizing the ao cholesky tensor: 1.33 GiB
+- CPU memory required for ao2mo transformation: 1.63 GiB
+- CPU memory required for the 2-step contraction: 2.18 GiB
+
+- Time for ao to mo transform: 4.44 secs
+
+   End Cholesky Decomposition
+---------------------------------------------
+
+Total Time taken for Cholesky Decomposition: 110.90 secs
+
+scf_type = restricted
+Closed-Shell SCF
+nbf = 180
+nbf_orig = 180
+n_lindep = 0
+focc = 1
+nmo = 360
+nocc = 6
+nvir = 354
+n_occ_alpha = 3
+n_vir_alpha = 177
+n_occ_beta = 3
+n_vir_beta = 177
+nelectrons = 6
+nelectrons_alpha = 3
+nelectrons_beta = 3
+n_frozen_core = 0
+n_frozen_virtual = 0
+----------------------------
+
+Total CPU memory required for Closed Shell Cholesky CCSD calculation: 3.30 GiB
+
+
+ CCSD iterations
+------------------------------------------------------------
+  Iter     Residuum          Correlation          Time(s)
+------------------------------------------------------------
+   1     0.2693104310488    0.0000000000000         22.47
+   2     0.0892704705480   -0.1384289412378         22.32
+   3     0.0382683956560   -0.1651775061241         22.35
+   4     0.0234477440564   -0.1819325897507         22.40
+   5     0.0146951009440   -0.1900610883625         22.59
+ MICROCYCLE DIIS UPDATE:                    6
+   6     0.0070869636668   -0.2014434809299         22.66
+   7     0.0047432553854   -0.2019476343404         22.68
+   8     0.0038603672074   -0.2022067008393         22.68
+   9     0.0030912816535   -0.2025620286109         22.66
+  10     0.0025824676619   -0.2028486203408         22.44
+ MICROCYCLE DIIS UPDATE:                   11
+  11     0.0006335539533   -0.2042748354962         22.28
+  12     0.0004126712637   -0.2043355120271         21.78
+  13     0.0002786552659   -0.2043561058770         22.51
+  14     0.0002173567977   -0.2043636875475         22.58
+  15     0.0001674796054   -0.2043740344562         22.40
+ MICROCYCLE DIIS UPDATE:                   16
+  16     0.0000751702719   -0.2043947607143         22.63
+  17     0.0000512864066   -0.2044055541288         22.66
+  18     0.0000406693390   -0.2044114321899         22.64
+  19     0.0000322888625   -0.2044165546580         22.79
+  20     0.0000265218600   -0.2044204224897         22.69
+ MICROCYCLE DIIS UPDATE:                   21
+  21     0.0000081760500   -0.2044370959817         22.58
+  22     0.0000046287982   -0.2044372786579         22.98
+  23     0.0000035206232   -0.2044372085597         22.92
+  24     0.0000026007524   -0.2044372351927         22.99
+  25     0.0000021570396   -0.2044372878453         23.00
+ MICROCYCLE DIIS UPDATE:                   26
+  26     0.0000011685730   -0.2044374400475         21.98
+  27     0.0000007822723   -0.2044376618922         21.38
+  28     0.0000006117785   -0.2044377738638         21.85
+  29     0.0000004850254   -0.2044378639533         22.34
+  30     0.0000003962904   -0.2044379283052         22.21
+ MICROCYCLE DIIS UPDATE:                   31
+  31     0.0000001423822   -0.2044381900461         22.20
+  32     0.0000000831545   -0.2044381860948         26.38
+  33     0.0000000644441   -0.2044381827027         25.23
+  34     0.0000000478276   -0.2044381817108         25.29
+  35     0.0000000399527   -0.2044381822037         23.38
+ MICROCYCLE DIIS UPDATE:                   36
+  36     0.0000000225133   -0.2044381849865         23.19
+  37     0.0000000145923   -0.2044381896989         22.99
+  38     0.0000000114316   -0.2044381919737         27.06
+  39     0.0000000090632   -0.2044381937390         27.60
+------------------------------------------------------------------
+ Iterations converged
+ CCSD correlation energy / hartree =        -0.204438193738959
+ CCSD total energy / hartree       =        -3.175086571318964
+
+Time taken for Closed Shell Cholesky CCSD: 898.57 secs
+
+Threshold for printing amplitudes set to: 0.05
+T1, T2 amplitudes written to files: H6.cc-pvqz_files/restricted/H6.cc-pvqz.print_t1amp.txt, H6.cc-pvqz_files/restricted/H6.cc-pvqz.print_t2amp.txt
+
+Bare SCF Energy: -5.870648377514
+
+DUCC: Time taken to compute Bare Hamiltonian: 0.00 secs
+
+DUCC: Time taken to compute Single Commutator: 0.12 secs
+
+DUCC: Time taken to compute Double Commutator: 65.97 secs
+
+DUCC: Time taken to compute Triple Commutator: 2.27 secs
+
+NEW SCF: -5.945855998473
+SHIFT: 0.000524332866
+
+DUCC: Total Compute Time: 68.37 secs
+
+Number of active orbitals = 9
+
+
+DUCC: Time to write results: 0.01 secs

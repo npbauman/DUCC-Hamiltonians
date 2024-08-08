@@ -1,0 +1,32 @@
+**************************************************************
+File = H2O-1.75_Eq_DUCC3_10-electrons_16-Orbitals.out
+
+Nuclear Repulsion E = 7.055276164647666
+# Active Orbitals = 16
+# Frozen Core = 0
+# Occupied Orbitals = 5
+# Virtual Orbitals = 11
+
+Original SCF Energy = -76.13146771995235
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 7.055276164647666
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.580275
+-1.313456
+-0.682335
+-0.554648
+-0.502552
+0.017377
+0.153212
+0.298621
+0.446745
+0.524944
+0.525043
+0.598029
+0.646645
+0.666846
+0.728361
+0.756529

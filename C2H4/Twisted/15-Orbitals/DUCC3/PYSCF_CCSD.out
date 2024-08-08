@@ -1,0 +1,59 @@
+File =  C2H4-Twisted_DUCC2_16-electrons_15-Orbitals.out.yaml
+Orbitals =  15
+Frozen Orbitals =  0
+Correlated Orbitals =  15
+Electrons =  16
+Correlated Electrons =  16
+
+Repulsion Energy = 33.286286898279
+SCF Energy = -78.325627076721
+Core Energy = 0.000000000000
+New Repulsion Energy = 33.286286898279
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-11.210492
+-11.209008
+-1.069877
+-0.832002
+-0.655367
+-0.644538
+-0.636760
+-0.322071
+0.073441
+0.134503
+0.158790
+0.179683
+0.181064
+0.251465
+0.286613
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 8, nmo = 15
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 242 MB)
+Init t2, MP2 energy = -111.629884363922  E_corr(MP2) -0.0179703889222784
+Init E_corr(CCSD) = -0.018091965388066
+cycle = 1  E_corr(CCSD) = -0.0249503509310016  dE = -0.00685838554  norm(t1,t2) = 0.068363
+cycle = 2  E_corr(CCSD) = -0.0289021575581186  dE = -0.00395180663  norm(t1,t2) = 0.046298
+cycle = 3  E_corr(CCSD) = -0.0366891441702468  dE = -0.00778698661  norm(t1,t2) = 0.0320315
+cycle = 4  E_corr(CCSD) = -0.0362783954751997  dE = 0.000410748695  norm(t1,t2) = 0.00353216
+cycle = 5  E_corr(CCSD) = -0.0365838280268814  dE = -0.000305432552  norm(t1,t2) = 0.00126196
+cycle = 6  E_corr(CCSD) = -0.0365221864303487  dE = 6.16415965e-05  norm(t1,t2) = 0.000357453
+cycle = 7  E_corr(CCSD) = -0.0364986464832939  dE = 2.35399471e-05  norm(t1,t2) = 7.07266e-05
+cycle = 8  E_corr(CCSD) = -0.036509792402796  dE = -1.11459195e-05  norm(t1,t2) = 4.68102e-05
+cycle = 9  E_corr(CCSD) = -0.0365093941318208  dE = 3.98270975e-07  norm(t1,t2) = 3.51425e-06
+cycle = 10  E_corr(CCSD) = -0.0365093593553199  dE = 3.47765009e-08  norm(t1,t2) = 8.80036e-07
+CCSD converged
+E(CCSD) = -111.6484233343553  E_corr = -0.0365093593553199
+CCSD correlation energy = -0.0365093593553199
+CCSD total energy = -78.3621364360759
+NEED TO ADJUST FOR FROZEN CORE

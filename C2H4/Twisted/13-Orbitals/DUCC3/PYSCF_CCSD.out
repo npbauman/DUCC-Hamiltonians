@@ -1,0 +1,57 @@
+File =  C2H4-Twisted_DUCC2_16-electrons_13-Orbitals.out.yaml
+Orbitals =  13
+Frozen Orbitals =  0
+Correlated Orbitals =  13
+Electrons =  16
+Correlated Electrons =  16
+
+Repulsion Energy = 33.286286898279
+SCF Energy = -78.329522670921
+Core Energy = 0.000000000000
+New Repulsion Energy = 33.286286898279
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-11.211921
+-11.210439
+-1.070842
+-0.832711
+-0.656324
+-0.645452
+-0.637821
+-0.322757
+0.073470
+0.134473
+0.158778
+0.179719
+0.181107
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 8, nmo = 13
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 185 MB)
+Init t2, MP2 energy = -111.631882720155  E_corr(MP2) -0.0160731509555096
+Init E_corr(CCSD) = -0.0161784812589403
+cycle = 1  E_corr(CCSD) = -0.0228811404252882  dE = -0.00670265917  norm(t1,t2) = 0.0681885
+cycle = 2  E_corr(CCSD) = -0.0267835583822653  dE = -0.00390241796  norm(t1,t2) = 0.0462288
+cycle = 3  E_corr(CCSD) = -0.0345383926754981  dE = -0.00775483429  norm(t1,t2) = 0.03196
+cycle = 4  E_corr(CCSD) = -0.0341236857801145  dE = 0.000414706895  norm(t1,t2) = 0.00346672
+cycle = 5  E_corr(CCSD) = -0.0344636758415624  dE = -0.000339990061  norm(t1,t2) = 0.00125123
+cycle = 6  E_corr(CCSD) = -0.0343596154301545  dE = 0.000104060411  norm(t1,t2) = 0.000462105
+cycle = 7  E_corr(CCSD) = -0.0343487775230274  dE = 1.08379071e-05  norm(t1,t2) = 4.62636e-05
+cycle = 8  E_corr(CCSD) = -0.0343588257748361  dE = -1.00482518e-05  norm(t1,t2) = 4.23609e-05
+cycle = 9  E_corr(CCSD) = -0.034358547292835  dE = 2.78482001e-07  norm(t1,t2) = 3.02025e-06
+cycle = 10  E_corr(CCSD) = -0.0343585159656583  dE = 3.13271767e-08  norm(t1,t2) = 7.8248e-07
+CCSD converged
+E(CCSD) = -111.6501680851656  E_corr = -0.0343585159656583
+CCSD correlation energy = -0.0343585159656583
+CCSD total energy = -78.3638811868862
+NEED TO ADJUST FOR FROZEN CORE

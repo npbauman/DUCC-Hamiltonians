@@ -1,0 +1,58 @@
+File =  H2O-1.50_Eq_Bare_10-electrons_14-Orbitals.out.yaml
+Orbitals =  14
+Frozen Orbitals =  0
+Correlated Orbitals =  14
+Electrons =  10
+Correlated Electrons =  10
+
+Repulsion Energy = 7.494245246789
+SCF Energy = -75.946128203811
+Core Energy = 0.000000000000
+New Repulsion Energy = 7.494245246789
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.587649
+-1.279603
+-0.634994
+-0.500883
+-0.497256
+0.053763
+0.154012
+0.318902
+0.448495
+0.513233
+0.541029
+0.599669
+0.637017
+0.641487
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 5, nmo = 14
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 242 MB)
+Init t2, MP2 energy = -83.5179526149456  E_corr(MP2) -0.0775791643455467
+Init E_corr(CCSD) = -0.0775791643455467
+cycle = 1  E_corr(CCSD) = -0.0813915213285631  dE = -0.00381235698  norm(t1,t2) = 0.0534918
+cycle = 2  E_corr(CCSD) = -0.085929633436374  dE = -0.00453811211  norm(t1,t2) = 0.0203166
+cycle = 3  E_corr(CCSD) = -0.0875423578281521  dE = -0.00161272439  norm(t1,t2) = 0.010678
+cycle = 4  E_corr(CCSD) = -0.0883043537768275  dE = -0.000761995949  norm(t1,t2) = 0.00365408
+cycle = 5  E_corr(CCSD) = -0.0882576470611767  dE = 4.67067157e-05  norm(t1,t2) = 0.00133955
+cycle = 6  E_corr(CCSD) = -0.0882418866130832  dE = 1.57604481e-05  norm(t1,t2) = 0.000370804
+cycle = 7  E_corr(CCSD) = -0.0882413827378168  dE = 5.03875266e-07  norm(t1,t2) = 0.000113844
+cycle = 8  E_corr(CCSD) = -0.0882422776615563  dE = -8.9492374e-07  norm(t1,t2) = 3.13216e-05
+cycle = 9  E_corr(CCSD) = -0.0882426786677192  dE = -4.01006163e-07  norm(t1,t2) = 9.20347e-06
+cycle = 10  E_corr(CCSD) = -0.0882426981881909  dE = -1.95204716e-08  norm(t1,t2) = 1.3778e-06
+CCSD converged
+E(CCSD) = -83.52861614878822  E_corr = -0.08824269818819089
+CCSD correlation energy = -0.0882426981881909
+CCSD total energy = -76.0343709019995
+NEED TO ADJUST FOR FROZEN CORE

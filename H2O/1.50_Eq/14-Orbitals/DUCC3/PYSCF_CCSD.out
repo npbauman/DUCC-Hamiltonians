@@ -1,0 +1,58 @@
+File =  H2O-1.50_Eq_DUCC3_10-electrons_14-Orbitals.out.yaml
+Orbitals =  14
+Frozen Orbitals =  0
+Correlated Orbitals =  14
+Electrons =  10
+Correlated Electrons =  10
+
+Repulsion Energy = 7.494245246789
+SCF Energy = -76.198563429811
+Core Energy = 0.000000000000
+New Repulsion Energy = 7.494245246789
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.566956
+-1.318935
+-0.688823
+-0.552220
+-0.549958
+0.062734
+0.158095
+0.321971
+0.451460
+0.522721
+0.547084
+0.601897
+0.644003
+0.647193
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 5, nmo = 14
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 243 MB)
+Init t2, MP2 energy = -83.7605811988507  E_corr(MP2) -0.0677725222506619
+Init E_corr(CCSD) = -0.0687952248290744
+cycle = 1  E_corr(CCSD) = -0.0725300459155482  dE = -0.00373482109  norm(t1,t2) = 0.0465931
+cycle = 2  E_corr(CCSD) = -0.0763638937626043  dE = -0.00383384785  norm(t1,t2) = 0.0165609
+cycle = 3  E_corr(CCSD) = -0.0779895837465779  dE = -0.00162568998  norm(t1,t2) = 0.00805877
+cycle = 4  E_corr(CCSD) = -0.0783539384288212  dE = -0.000364354682  norm(t1,t2) = 0.00199288
+cycle = 5  E_corr(CCSD) = -0.0783097729743275  dE = 4.41654545e-05  norm(t1,t2) = 0.000743007
+cycle = 6  E_corr(CCSD) = -0.0783020078317318  dE = 7.7651426e-06  norm(t1,t2) = 0.000172116
+cycle = 7  E_corr(CCSD) = -0.0783015958484324  dE = 4.11983299e-07  norm(t1,t2) = 4.174e-05
+cycle = 8  E_corr(CCSD) = -0.0783019544349153  dE = -3.58586483e-07  norm(t1,t2) = 1.29351e-05
+cycle = 9  E_corr(CCSD) = -0.0783020646404303  dE = -1.10205515e-07  norm(t1,t2) = 3.33312e-06
+cycle = 10  E_corr(CCSD) = -0.0783020417321191  dE = 2.29083112e-08  norm(t1,t2) = 5.27199e-07
+CCSD converged
+E(CCSD) = -83.77111071833211  E_corr = -0.07830204173211913
+CCSD correlation energy = -0.0783020417321191
+CCSD total energy = -76.2768654715434
+NEED TO ADJUST FOR FROZEN CORE

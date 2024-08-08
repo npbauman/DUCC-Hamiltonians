@@ -1,0 +1,24 @@
+**************************************************************
+File = H6_3au_DUCC3_6-electrons_8-Orbitals.out
+
+Nuclear Repulsion E = 2.9
+# Active Orbitals = 8
+# Frozen Core = 0
+# Occupied Orbitals = 3
+# Virtual Orbitals = 5
+
+Original SCF Energy = -3.0516915135
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 2.9
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.531754
+-0.479367
+-0.393433
+-0.062729
+0.053100
+0.170916
+0.273966
+0.298107

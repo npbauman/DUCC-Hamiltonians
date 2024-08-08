@@ -1,0 +1,60 @@
+File =  H2O-1.50_Eq_DUCC3_10-electrons_16-Orbitals.out.yaml
+Orbitals =  16
+Frozen Orbitals =  0
+Correlated Orbitals =  16
+Electrons =  10
+Correlated Electrons =  10
+
+Repulsion Energy = 7.494245246789
+SCF Energy = -76.195768728011
+Core Energy = 0.000000000000
+New Repulsion Energy = 7.494245246789
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.567962
+-1.317820
+-0.687969
+-0.551336
+-0.549097
+0.062296
+0.157923
+0.321789
+0.451370
+0.522399
+0.546802
+0.601605
+0.643732
+0.646953
+0.731633
+0.813844
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 5, nmo = 16
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 340 MB)
+Init t2, MP2 energy = -83.7629087587391  E_corr(MP2) -0.0728947839390775
+Init E_corr(CCSD) = -0.0739738321076029
+cycle = 1  E_corr(CCSD) = -0.0772964188197682  dE = -0.00332258671  norm(t1,t2) = 0.0481169
+cycle = 2  E_corr(CCSD) = -0.0814516919422476  dE = -0.00415527312  norm(t1,t2) = 0.0170266
+cycle = 3  E_corr(CCSD) = -0.0830009331947855  dE = -0.00154924125  norm(t1,t2) = 0.00829623
+cycle = 4  E_corr(CCSD) = -0.0835084914246756  dE = -0.00050755823  norm(t1,t2) = 0.00231405
+cycle = 5  E_corr(CCSD) = -0.0834656962241099  dE = 4.27952006e-05  norm(t1,t2) = 0.00078305
+cycle = 6  E_corr(CCSD) = -0.0834567529801186  dE = 8.94324399e-06  norm(t1,t2) = 0.0001854
+cycle = 7  E_corr(CCSD) = -0.0834558804591226  dE = 8.72520996e-07  norm(t1,t2) = 5.31083e-05
+cycle = 8  E_corr(CCSD) = -0.0834561802580704  dE = -2.99798948e-07  norm(t1,t2) = 1.53118e-05
+cycle = 9  E_corr(CCSD) = -0.0834562980794392  dE = -1.17821369e-07  norm(t1,t2) = 4.18249e-06
+cycle = 10  E_corr(CCSD) = -0.0834562838865132  dE = 1.4192926e-08  norm(t1,t2) = 6.41628e-07
+CCSD converged
+E(CCSD) = -83.77347025868653  E_corr = -0.08345628388651323
+CCSD correlation energy = -0.0834562838865132
+CCSD total energy = -76.2792250118978
+NEED TO ADJUST FOR FROZEN CORE

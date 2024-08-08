@@ -1,0 +1,31 @@
+**************************************************************
+File = C2H4-Twisted_DUCC2_16-electrons_15-Orbitals.out
+
+Nuclear Repulsion E = 33.28628689827949
+# Active Orbitals = 15
+# Frozen Core = 0
+# Occupied Orbitals = 8
+# Virtual Orbitals = 7
+
+Original SCF Energy = -78.26270013812052
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 33.28628689827949
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-11.205397
+-11.203870
+-1.059726
+-0.822739
+-0.646919
+-0.636148
+-0.630021
+-0.301639
+0.064337
+0.134870
+0.158876
+0.180162
+0.181490
+0.251893
+0.287658

@@ -1,0 +1,31 @@
+**************************************************************
+File = C2H4-Planar_DUCC2_16-electrons_15-Orbitals.out
+
+Nuclear Repulsion E = 33.30226225226435
+# Active Orbitals = 15
+# Frozen Core = 0
+# Occupied Orbitals = 8
+# Virtual Orbitals = 7
+
+Original SCF Energy = -78.44949785243564
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 33.30226225226435
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-11.210149
+-11.208498
+-1.058623
+-0.823003
+-0.689807
+-0.628661
+-0.553965
+-0.434827
+0.135923
+0.157653
+0.164094
+0.166392
+0.204869
+0.284625
+0.301167

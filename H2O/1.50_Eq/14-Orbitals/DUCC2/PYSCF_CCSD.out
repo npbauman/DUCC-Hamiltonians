@@ -1,0 +1,58 @@
+File =  H2O-1.50_Eq_DUCC2_10-electrons_14-Orbitals.out.yaml
+Orbitals =  14
+Frozen Orbitals =  0
+Correlated Orbitals =  14
+Electrons =  10
+Correlated Electrons =  10
+
+Repulsion Energy = 7.494245246789
+SCF Energy = -76.190059669411
+Core Energy = 0.000000000000
+New Repulsion Energy = 7.494245246789
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.559730
+-1.313457
+-0.685548
+-0.549235
+-0.547289
+0.062661
+0.158342
+0.321861
+0.451770
+0.523896
+0.547855
+0.602415
+0.645373
+0.648165
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 5, nmo = 14
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 244 MB)
+Init t2, MP2 energy = -83.7531437786971  E_corr(MP2) -0.068838862497117
+Init E_corr(CCSD) = -0.0699266963037059
+cycle = 1  E_corr(CCSD) = -0.0735948313191868  dE = -0.00366813502  norm(t1,t2) = 0.047156
+cycle = 2  E_corr(CCSD) = -0.0775047121100877  dE = -0.00390988079  norm(t1,t2) = 0.0165851
+cycle = 3  E_corr(CCSD) = -0.0790815523732069  dE = -0.00157684026  norm(t1,t2) = 0.00803663
+cycle = 4  E_corr(CCSD) = -0.0794766002131662  dE = -0.00039504784  norm(t1,t2) = 0.00207742
+cycle = 5  E_corr(CCSD) = -0.0794326466461679  dE = 4.3953567e-05  norm(t1,t2) = 0.0007687
+cycle = 6  E_corr(CCSD) = -0.0794246628357752  dE = 7.98381039e-06  norm(t1,t2) = 0.000177633
+cycle = 7  E_corr(CCSD) = -0.0794242602498626  dE = 4.02585913e-07  norm(t1,t2) = 4.38336e-05
+cycle = 8  E_corr(CCSD) = -0.0794246257251838  dE = -3.65475321e-07  norm(t1,t2) = 1.34671e-05
+cycle = 9  E_corr(CCSD) = -0.0794247370990738  dE = -1.1137389e-07  norm(t1,t2) = 3.50984e-06
+cycle = 10  E_corr(CCSD) = -0.0794247152845765  dE = 2.18144972e-08  norm(t1,t2) = 5.44871e-07
+CCSD converged
+E(CCSD) = -83.76372963148457  E_corr = -0.07942471528457654
+CCSD correlation energy = -0.0794247152845765
+CCSD total energy = -76.2694843846958
+NEED TO ADJUST FOR FROZEN CORE

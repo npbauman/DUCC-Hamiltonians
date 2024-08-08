@@ -1,0 +1,27 @@
+**************************************************************
+File = H2O-1.00_Eq_Bare_10-electrons_11-Orbitals.out
+
+Nuclear Repulsion E = 9.009284636125296
+# Active Orbitals = 11
+# Frozen Core = 0
+# Occupied Orbitals = 5
+# Virtual Orbitals = 6
+
+Original SCF Energy = -76.0620975083747
+Core Energy =0.0
+
+New Repulsion Energy (Core+Repulsion)= 9.009284636125296
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.559871
+-1.335987
+-0.715235
+-0.566667
+-0.504639
+0.116300
+0.168536
+0.451932
+0.458277
+0.485982
+0.585090

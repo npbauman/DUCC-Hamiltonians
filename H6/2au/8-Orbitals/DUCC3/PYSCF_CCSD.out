@@ -1,0 +1,51 @@
+File =  H6_2au_DUCC3_6-electrons_8-Orbitals.out.yaml
+Orbitals =  8
+Frozen Orbitals =  0
+Correlated Orbitals =  8
+Electrons =  6
+Correlated Electrons =  6
+
+Repulsion Energy = 4.350000000000
+SCF Energy = -3.348446031100
+Core Energy = 0.000000000000
+New Repulsion Energy = 4.350000000000
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-0.708628
+-0.597364
+-0.428991
+0.044093
+0.180012
+0.248580
+0.255757
+0.319151
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 3, nmo = 8
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 108 MB)
+Init t2, MP2 energy = -7.72594070550155  E_corr(MP2) -0.0274946744015499
+Init E_corr(CCSD) = -0.0280228019848535
+cycle = 1  E_corr(CCSD) = -0.0337188786663322  dE = -0.00569607668  norm(t1,t2) = 0.0365706
+cycle = 2  E_corr(CCSD) = -0.0355251319987916  dE = -0.00180625333  norm(t1,t2) = 0.0158699
+cycle = 3  E_corr(CCSD) = -0.0367247635843445  dE = -0.00119963159  norm(t1,t2) = 0.00772559
+cycle = 4  E_corr(CCSD) = -0.0367471122084022  dE = -2.23486241e-05  norm(t1,t2) = 0.00121284
+cycle = 5  E_corr(CCSD) = -0.0367317027645555  dE = 1.54094438e-05  norm(t1,t2) = 0.00029952
+cycle = 6  E_corr(CCSD) = -0.0367329167758061  dE = -1.21401125e-06  norm(t1,t2) = 6.73619e-05
+cycle = 7  E_corr(CCSD) = -0.0367327499807147  dE = 1.66795091e-07  norm(t1,t2) = 1.34075e-05
+cycle = 8  E_corr(CCSD) = -0.0367326250349707  dE = 1.24945744e-07  norm(t1,t2) = 3.93738e-06
+cycle = 9  E_corr(CCSD) = -0.0367326339821483  dE = -8.9471776e-09  norm(t1,t2) = 7.22771e-07
+CCSD converged
+E(CCSD) = -7.735178665082148  E_corr = -0.03673263398214832
+CCSD correlation energy = -0.0367326339821483
+CCSD total energy = -3.38517866508215
+NEED TO ADJUST FOR FROZEN CORE

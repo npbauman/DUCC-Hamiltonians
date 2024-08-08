@@ -1,0 +1,61 @@
+File =  H2O-2.00_Eq_DUCC2_10-electrons_16-Orbitals.out.yaml
+Orbitals =  16
+Frozen Orbitals =  0
+Correlated Orbitals =  16
+Electrons =  10
+Correlated Electrons =  10
+
+Repulsion Energy = 6.723836887641
+SCF Energy = -76.062233297759
+Core Energy = 0.000000000000
+New Repulsion Energy = 6.723836887641
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-20.581520
+-1.310424
+-0.680392
+-0.556613
+-0.463270
+-0.023133
+0.149748
+0.291063
+0.443971
+0.512262
+0.523177
+0.594812
+0.643496
+0.673663
+0.696457
+0.721879
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 5, nmo = 16
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 341 MB)
+Init t2, MP2 energy = -82.8869250441257  E_corr(MP2) -0.100854858725696
+Init E_corr(CCSD) = -0.102022401637013
+cycle = 1  E_corr(CCSD) = -0.109938515476676  dE = -0.00791611384  norm(t1,t2) = 0.0916933
+cycle = 2  E_corr(CCSD) = -0.120353060869408  dE = -0.0104145454  norm(t1,t2) = 0.0509444
+cycle = 3  E_corr(CCSD) = -0.12544500369864  dE = -0.00509194283  norm(t1,t2) = 0.0283899
+cycle = 4  E_corr(CCSD) = -0.12914866323003  dE = -0.00370365953  norm(t1,t2) = 0.0119479
+cycle = 5  E_corr(CCSD) = -0.128851056064088  dE = 0.000297607166  norm(t1,t2) = 0.00246082
+cycle = 6  E_corr(CCSD) = -0.12895662050568  dE = -0.000105564442  norm(t1,t2) = 0.00101164
+cycle = 7  E_corr(CCSD) = -0.128936919911365  dE = 1.97005943e-05  norm(t1,t2) = 0.000404842
+cycle = 8  E_corr(CCSD) = -0.12892744003948  dE = 9.47987189e-06  norm(t1,t2) = 0.000102014
+cycle = 9  E_corr(CCSD) = -0.128928742658964  dE = -1.30261948e-06  norm(t1,t2) = 2.65699e-05
+cycle = 10  E_corr(CCSD) = -0.128930748246309  dE = -2.00558734e-06  norm(t1,t2) = 9.6315e-06
+cycle = 11  E_corr(CCSD) = -0.128930728453917  dE = 1.97923924e-08  norm(t1,t2) = 1.55433e-06
+CCSD converged
+E(CCSD) = -82.91500091385393  E_corr = -0.1289307284539167
+CCSD correlation energy = -0.128930728453917
+CCSD total energy = -76.1911640262126
+NEED TO ADJUST FOR FROZEN CORE

@@ -1,0 +1,55 @@
+File =  C2H4-Twisted_DUCC3_16-electrons_11-Orbitals.out.yaml
+Orbitals =  11
+Frozen Orbitals =  0
+Correlated Orbitals =  11
+Electrons =  16
+Correlated Electrons =  16
+
+Repulsion Energy = 33.286286898279
+SCF Energy = -78.333697537721
+Core Energy = 0.000000000000
+New Repulsion Energy = 33.286286898279
+
+New orbital energies after downfolding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-11.210979
+-11.209495
+-1.070452
+-0.832701
+-0.656824
+-0.645965
+-0.637468
+-0.322646
+0.074318
+0.134769
+0.159081
+
+
+******** <class 'pyscf.cc.ccsd.CCSD'> ********
+CC2 = 0
+CCSD nocc = 8, nmo = 11
+max_cycle = 50
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-05
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 100
+max_memory 4000 MB (current use 136 MB)
+Init t2, MP2 energy = -111.633847411504  E_corr(MP2) -0.0138629755039459
+Init E_corr(CCSD) = -0.0138870481641077
+cycle = 1  E_corr(CCSD) = -0.0203356088285392  dE = -0.00644856066  norm(t1,t2) = 0.0679057
+cycle = 2  E_corr(CCSD) = -0.0241688411994375  dE = -0.00383323237  norm(t1,t2) = 0.0462665
+cycle = 3  E_corr(CCSD) = -0.0319429632170028  dE = -0.00777412202  norm(t1,t2) = 0.0320262
+cycle = 4  E_corr(CCSD) = -0.0314960941570327  dE = 0.00044686906  norm(t1,t2) = 0.0032792
+cycle = 5  E_corr(CCSD) = -0.0318756409953186  dE = -0.000379546838  norm(t1,t2) = 0.00126694
+cycle = 6  E_corr(CCSD) = -0.0316888528611577  dE = 0.000186788134  norm(t1,t2) = 0.000588396
+cycle = 7  E_corr(CCSD) = -0.0317345198319226  dE = -4.56669708e-05  norm(t1,t2) = 0.00021776
+cycle = 8  E_corr(CCSD) = -0.0317380091776022  dE = -3.48934568e-06  norm(t1,t2) = 1.83309e-05
+cycle = 9  E_corr(CCSD) = -0.0317384845253197  dE = -4.75347718e-07  norm(t1,t2) = 2.62176e-06
+cycle = 10  E_corr(CCSD) = -0.0317384771725966  dE = 7.35272313e-09  norm(t1,t2) = 2.40083e-07
+CCSD converged
+E(CCSD) = -111.6517229131726  E_corr = -0.03173847717259659
+CCSD correlation energy = -0.0317384771725966
+CCSD total energy = -78.3654360148931
+NEED TO ADJUST FOR FROZEN CORE
